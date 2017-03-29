@@ -4,9 +4,30 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.ear
+
+# Android
+bin
+gen
+.gradle
+build
+.settings
+target
+local.properties
+*.apk
+
+#Eclipse files
+.settings/
+.classpath
+.project
+
+#Intellij project files
+.idea
+*.iml
+
+#Project specific
+qnapi.ini
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
