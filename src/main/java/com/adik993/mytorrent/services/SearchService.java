@@ -24,24 +24,29 @@ public class SearchService {
 
     public List<SearchResult> search(String query, Integer proxyId) throws IOException, ParseException {
         Search search = saveQuery(query, proxyId);
-        TpbClient client = TpbClient.withHost(proxyService.getProxy(proxyId).getDomain());
+        TpbClient client = prepareClient(proxyId);
         log.debug("Calling search on proxyId {}", proxyId);
         TpbResult result = client.search(query, null, null, null);
         log.debug("Call successful with result {}", result);
         return saveSearchResults(result, search);
     }
 
-    private Search saveQuery(String query, Integer proxy) {
+    TpbClient prepareClient(Integer proxyId) {
+        return TpbClient.withHost(proxyService.getProxy(proxyId).getDomain());
+    }
+
+    Search saveQuery(String query, Integer proxy) {
         log.debug("Searching {} on proxy {}", query, proxy);
         Search search = new Search();
         search.setQuery(query);
         search.setTimestamp(LocalDateTime.now());
-        searchRepository.save(search);
+        search.setSuccess(false);
+        search = searchRepository.save(search);
         log.debug("Saved search request {}", search);
         return search;
     }
 
-    private List<SearchResult> saveSearchResults(TpbResult result, Search search) {
+    List<SearchResult> saveSearchResults(TpbResult result, Search search) {
         log.debug("Saving search results");
         List<SearchResult> searchResults = SearchResult.fromList(result.getTorrents(), search);
         search.setSearchResults(searchResults);

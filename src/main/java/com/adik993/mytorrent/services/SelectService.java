@@ -17,7 +17,7 @@ import java.util.List;
 public class SelectService {
     private final SearchResultRepository searchResultRepository;
 
-    public void select(Long id) throws EntityNotFoundException {
+    public void select(Long id, boolean selected) throws EntityNotFoundException {
         log.debug("Selecting result");
         SearchResult one = searchResultRepository.findOne(id);
         if (one == null) throw new EntityNotFoundException(String.format("Search result %s not found", id));
@@ -27,7 +27,7 @@ public class SelectService {
         log.debug("Total results in search {}", searchResults.size());
         for (SearchResult result : searchResults) {
             if (result.getId().equals(one.getId())) {
-                result.setChosen(true);
+                result.setChosen(selected);
             } else {
                 result.setChosen(false);
             }

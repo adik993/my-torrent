@@ -4,6 +4,7 @@ import com.adik993.tpbclient.TpbClient;
 import com.adik993.tpbclient.proxy.ProxyList;
 import com.adik993.tpbclient.proxy.model.Proxy;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +15,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-/**
- * Created by adrian on 28/03/17.
- */
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Slf4j
 public class ProxyService {
     private final ProxyList proxyList;
-    private static final Proxy tpborg = Proxy.builder()
+    static final Proxy tpborg = Proxy.builder()
             .domain(TpbClient.DEFAULT_HOST)
             .speed(.0f)
             .build();
@@ -30,6 +29,7 @@ public class ProxyService {
 
     @PostConstruct
     public void init() {
+        log.debug("Initializing proxies");
         proxies.add(tpborg);
         Optional<List<Proxy>> optional = Optional.ofNullable(proxyList.getProxyListIfPresent());
         optional.ifPresent(proxies::addAll);
@@ -37,6 +37,7 @@ public class ProxyService {
         proxyMap = proxies.stream()
                 .peek(proxy -> proxy.setId(id[0]++))
                 .collect(Collectors.toMap(Proxy::getId, proxy -> proxy));
+        log.debug("Proxies initialized");
     }
 
     public List<Proxy> getProxyList() {

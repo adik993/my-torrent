@@ -4,22 +4,20 @@ import com.adik993.tpbclient.model.Category;
 import com.adik993.tpbclient.model.Torrent;
 import com.adik993.tpbclient.model.TorrentQuality;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Created by adrian on 28/03/17.
- */
 @Entity
 @Getter
 @Setter
 @ToString(exclude = {"search"})
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SearchResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
