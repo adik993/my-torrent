@@ -1,9 +1,9 @@
 import React from "react";
 import {connect} from "react-redux";
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import User from "components/User";
-import SearchBox from 'components/SearchBox';
-import ResultsList from 'components/ResultsList';
+import getMuiTheme from "material-ui/styles/getMuiTheme";
+import Paper from "material-ui/Paper";
+import SearchBox from "components/SearchBox";
+import ResultsList from "components/ResultsList";
 
 class Content extends React.Component {
 
@@ -19,10 +19,12 @@ class Content extends React.Component {
 
     render() {
         return (
-            <div className="container">
-                <SearchBox/>
-                <ResultsList/>
-            </div>
+            <Paper className="container" zDepth={2}>
+                <div className="text-center">
+                    <SearchBox/>
+                    <ResultsList/>
+                </div>
+            </Paper>
         );
     }
 }

@@ -1,5 +1,5 @@
-import {checkResponse} from 'utils';
-import * as types from 'actions/types';
+import {checkResponse} from "utils";
+import * as types from "actions/types";
 
 export const torrentsIsLoading = isLoading => {
     return {
@@ -24,6 +24,7 @@ export const torrentsFetchDataSiccess = torrents => {
 
 export const torrentsFetchData = (query, proxy) => dispatch => {
     dispatch(torrentsIsLoading(true));
+    dispatch(torrentsHasErrored(false));
     fetch(`/api/search?query=${query}&proxy=${proxy.id}`)
         .then(response => {
             dispatch(torrentsIsLoading(false));
@@ -35,4 +36,23 @@ export const torrentsFetchData = (query, proxy) => dispatch => {
             console.error(error);
             dispatch(torrentsHasErrored(true))
         })
+};
+
+export const torrentsSelectTorrentSuccess = (torrent, chosen) => {
+    return {
+        type: types.TORRENTS_SELECT_TORRENT_SUCCESS,
+        torrent,
+        chosen
+    }
+};
+
+export const torrentsSelectTorrent = (torrent, selected) => dispatch => {
+    fetch(`/api/result/select?id=${torrent.id}&selected=${selected}`, {
+        method: 'POST'
+    })
+        .then(response => checkResponse(response))
+        .then(response => dispatch(torrentsSelectTorrentSuccess(torrent, selected)))
+        .catch(error => {
+            console.error(error);
+        });
 };

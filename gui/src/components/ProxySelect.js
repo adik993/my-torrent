@@ -1,8 +1,8 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import {proxySelectProxy, proxyFetchData} from 'actions/proxy';
+import React from "react";
+import {connect} from "react-redux";
+import SelectField from "material-ui/SelectField";
+import MenuItem from "material-ui/MenuItem";
+import {proxyFetchData, proxySelectProxy} from "actions/proxy";
 
 class ProxySelect extends React.Component {
 
@@ -17,7 +17,8 @@ class ProxySelect extends React.Component {
     render() {
         return (
             <SelectField
-                className="search-select"
+                className="search-select col-sm-4"
+                style={{width: null}}
                 value={this.props.selectedProxy}
                 onChange={this.handleChange}
                 maxHeight={300}
