@@ -1,8 +1,13 @@
-h1 {
-  color: crimson;
+.search-box {
+  display: inline-block;
+  padding: 10px;
 }
 
-table, td, th {
-  border: 1px solid black;
-  padding: 3px;
+.search-input {
+  display: inline-block;
+  float: left;
+}
+
+.search-select {
+  float: left;
 }
