@@ -1,7 +1,8 @@
 package com.adik993.mytorrent.rest;
 
-import com.adik993.mytorrent.services.ProxyService;
-import com.adik993.tpbclient.proxy.model.Proxy;
+import com.adik993.mytorrent.providers.TorrentsProvidersFacade;
+import com.adik993.mytorrent.providers.TpbProvider;
+import com.adik993.tpbclient.TpbClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
-import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -25,28 +25,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class ProxyControllerTest {
-    private static final List<Proxy> proxies = Collections.singletonList(
-            Proxy.builder().id(0).country("PL").domain("aaa.com").build());
+public class ProvidersControllerTest {
     @MockBean
-    private ProxyService service;
+    private TorrentsProvidersFacade torrentsProvidersFacade;
     @Autowired
     private MockMvc mockMvc;
 
     @Before
     public void setUp() {
-        given(service.getProxyList())
-                .willReturn(proxies);
+        TpbProvider provider = new TpbProvider(TpbClient.withHost("aaa.com"));
+        provider.setId(0L);
+        given(torrentsProvidersFacade.getProviders())
+                .willReturn(Collections.singleton(provider));
     }
 
     @Test
-    public void getProxies() throws Exception {
-        mockMvc.perform(get("/api/proxy"))
+    public void getProviders() throws Exception {
+        mockMvc.perform(get("/api/providers"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].id", is(0)))
-                .andExpect(jsonPath("$[0].country", is("PL")))
-                .andExpect(jsonPath("$[0].domain", is("aaa.com")));
+                .andExpect(jsonPath("$[0].name", is("aaa.com")))
+                .andExpect(jsonPath("$[0].up", is(true)));
     }
-
 }

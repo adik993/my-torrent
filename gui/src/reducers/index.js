@@ -1,12 +1,12 @@
 import {combineReducers} from "redux";
-import {proxies, proxyHasErrored, proxyIsLoading, selectedProxy} from "reducers/proxy";
+import {providerHasErrored, providerIsLoading, providers, selectedProvider} from "reducers/provider";
 import {torrents, torrentsHasErrored, torrentsIsLoading} from "reducers/torrents";
 
 export default combineReducers({
-    proxies,
-    proxyIsLoading,
-    proxyHasErrored,
-    selectedProxy,
+    providers,
+    providerIsLoading,
+    providerHasErrored,
+    selectedProvider,
     torrentsIsLoading,
     torrentsHasErrored,
     torrents

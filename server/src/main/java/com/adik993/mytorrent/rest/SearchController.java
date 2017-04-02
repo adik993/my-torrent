@@ -1,6 +1,7 @@
 package com.adik993.mytorrent.rest;
 
 import com.adik993.mytorrent.model.SearchResult;
+import com.adik993.mytorrent.notification.EventContextFactory;
 import com.adik993.mytorrent.services.SearchService;
 import com.adik993.tpbclient.exceptions.ParseException;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +22,12 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SearchController {
     private final SearchService searchService;
+    private final EventContextFactory eventContextFactory;
 
     @GetMapping
     public List<SearchResult> search(
             @RequestParam("query") String query,
-            @RequestParam(value = "proxy", required = false) Integer proxy) throws IOException, ParseException {
-        return searchService.search(query, proxy);
+            @RequestParam(value = "provider", required = false) Long provider) throws IOException, ParseException {
+        return searchService.search(eventContextFactory.createSearchContext(), query, provider);
     }
 }

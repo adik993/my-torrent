@@ -22,6 +22,7 @@ import java.util.Collections;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -42,9 +43,16 @@ public class SearchControllerTest {
 
     @Before
     public void setUp() throws IOException, ParseException {
-        given(searchService.search(any(), any()))
+        given(searchService.search(any(), any(), isNull(Long.class)))
                 .willReturn(Collections.singletonList(SearchResult.builder().
                         magnetLink("aaa")
+                        .search(new Search())
+                        .build())
+                );
+
+        given(searchService.search(any(), any(), eq(1L)))
+                .willReturn(Collections.singletonList(SearchResult.builder().
+                        magnetLink("bbb")
                         .search(new Search())
                         .build())
                 );
@@ -57,6 +65,12 @@ public class SearchControllerTest {
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0]", not(hasKey("search"))))
                 .andExpect(jsonPath("$[0].magnetLink", is("aaa")));
+
+        mockMvc.perform(get("/api/search?query=zzz&provider=1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0]", not(hasKey("search"))))
+                .andExpect(jsonPath("$[0].magnetLink", is("bbb")));
     }
 
     @Test

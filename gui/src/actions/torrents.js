@@ -22,10 +22,10 @@ export const torrentsFetchDataSiccess = torrents => {
     }
 };
 
-export const torrentsFetchData = (query, proxy) => dispatch => {
+export const torrentsFetchData = (query, provider) => dispatch => {
     dispatch(torrentsIsLoading(true));
     dispatch(torrentsHasErrored(false));
-    fetch(`/api/search?query=${query}&proxy=${proxy.id}`)
+    fetch(`/api/search?query=${query}&provider=${provider}`)
         .then(response => {
             dispatch(torrentsIsLoading(false));
             return checkResponse(response)

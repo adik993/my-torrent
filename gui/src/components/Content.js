@@ -4,6 +4,7 @@ import getMuiTheme from "material-ui/styles/getMuiTheme";
 import Paper from "material-ui/Paper";
 import SearchBox from "components/SearchBox";
 import ResultsList from "components/ResultsList";
+import {wsConnect, wsDisconnect} from "redux-stomp";
 
 class Content extends React.Component {
 
@@ -15,6 +16,14 @@ class Content extends React.Component {
         return {
             muiTheme: getMuiTheme()
         }
+    }
+
+    componentDidMount() {
+        this.props.connectToWs();
+    }
+
+    componentWillUnmount() {
+        this.props.disconnectFromWs();
     }
 
     render() {
@@ -34,7 +43,10 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-    return {}
+    return {
+        connectToWs: () => dispatch(wsConnect()),
+        disconnectFromWs: () => dispatch(wsDisconnect())
+    }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Content);

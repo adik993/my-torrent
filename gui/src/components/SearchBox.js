@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import TextField from "material-ui/TextField";
-import ProxySelect from "components/ProxySelect";
+import ProviderSelect from "components/ProviderSelect";
 import {torrentsFetchData} from "actions/torrents";
 
 class SearchBox extends React.Component {
@@ -13,7 +13,7 @@ class SearchBox extends React.Component {
 
     onSearch = (event) => {
         event.preventDefault();
-        this.props.search(this.state.query, this.props.proxy);
+        this.props.search(this.state.query, this.props.provider);
     };
 
     onChange = event => {
@@ -33,7 +33,7 @@ class SearchBox extends React.Component {
                         value={this.state.query}
                         onChange={this.onChange}
                     />
-                    <ProxySelect />
+                    <ProviderSelect />
                 </div>
             </form>
 
@@ -43,13 +43,13 @@ class SearchBox extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        proxy: state.selectedProxy
+        provider: state.selectedProvider
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        search: (query, proxy) => dispatch(torrentsFetchData(query, proxy))
+        search: (query, provider) => dispatch(torrentsFetchData(query, provider))
     }
 };
 

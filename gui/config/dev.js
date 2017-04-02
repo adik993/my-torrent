@@ -16,6 +16,10 @@ module.exports = function (env) {
                 '/api': {
                     target: API_URL,
                     // pathRewrite: {'^/api': ''} //If api doesn't start with /api
+                },
+                '/gs-guide-websocket': {
+                    target: API_URL,
+                    ws: true
                 }
             }
         },

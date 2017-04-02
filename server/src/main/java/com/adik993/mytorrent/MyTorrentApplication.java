@@ -2,11 +2,10 @@ package com.adik993.mytorrent;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
-/**
- * Created by adrian on 28/03/17.
- */
 @SpringBootApplication
+@EnableScheduling
 public class MyTorrentApplication {
     public static void main(String[] args) {
         SpringApplication.run(MyTorrentApplication.class, args);
