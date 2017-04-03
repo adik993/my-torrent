@@ -46,6 +46,7 @@ public class TorrentsProvidersFacadeTest {
         MockProvider bbb = spy(new MockProvider(1L, "bbb"));
         providers = Arrays.asList(defaultProvider, bbb);
         underTest = new TorrentsProvidersFacade(providers, defaultProvider);
+        underTest.setMinUpdateInterval(0);
         ProviderUpdateContext context = mock(ProviderUpdateContext.class);
         doAnswer(invocation -> {
             Thread.sleep(1000L);
@@ -63,6 +64,28 @@ public class TorrentsProvidersFacadeTest {
         verify(defaultProvider, times(1)).checkIfUp();
         verify(bbb, times(1)).checkIfUp();
         verify(context, times(1)).notifyDone();
+    }
+
+    @Test
+    public void updateStatusRespectMinInterval() throws Exception {
+        defaultProvider = spy(new MockProvider(0L, "aaa"));
+        MockProvider bbb = spy(new MockProvider(1L, "bbb"));
+        providers = Arrays.asList(defaultProvider, bbb);
+        underTest = new TorrentsProvidersFacade(providers, defaultProvider);
+        underTest.setMinUpdateInterval(1000);
+        ProviderUpdateContext context = mock(ProviderUpdateContext.class);
+        doAnswer(invocation -> {
+            Thread.sleep(600L);
+            return null;
+        }).when(context).notifyDone();
+        underTest.updateUpStatus(context);
+        underTest.updateUpStatus(context);
+        Thread.sleep(410L);
+        underTest.updateUpStatus(context);
+        verify(defaultProvider, times(2)).checkIfUp();
+        verify(bbb, times(2)).checkIfUp();
+        verify(context, times(2)).notifyDone();
+
     }
 
     @RequiredArgsConstructor

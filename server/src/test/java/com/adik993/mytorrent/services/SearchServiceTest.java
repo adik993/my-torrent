@@ -68,12 +68,12 @@ public class SearchServiceTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void searchIOException() throws Exception {
+    public void searchException() throws Exception {
         doThrow(new RuntimeException()).when(torrentsProvider).search(any(), any(), any(), any());
         try {
             underTest.search(searchContext, query, providerId);
         } finally {
-            verify(searchContext, times(1)).notifySearchFailed(any());
+            verify(searchContext, times(1)).notifySearchFailed(torrentsProvider);
             verify(underTest, never()).saveSearchResults(any(), any());
         }
     }

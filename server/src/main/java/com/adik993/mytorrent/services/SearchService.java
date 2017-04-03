@@ -33,7 +33,7 @@ public class SearchService {
         try {
             result = provider.search(query, null, null, null);
         } catch (Exception e) {
-            searchContext.notifySearchFailed(null);
+            searchContext.notifySearchFailed(provider);
             throw e;
         }
         log.debug("Call successful with result {}", result);
