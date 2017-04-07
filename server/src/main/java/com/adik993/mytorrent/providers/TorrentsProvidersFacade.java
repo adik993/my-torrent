@@ -15,7 +15,7 @@ public class TorrentsProvidersFacade {
     private final TorrentsProvider defaultProvider;
     private final AtomicBoolean updating = new AtomicBoolean();
     private volatile long lastUpdate = 0;
-    @Setter(onMethod = @__(@Value("${tc.providers.min-update-interval}")))
+    @Setter(onMethod = @__(@Value("#{${tc.providers.min-update-interval}}")))
     private long minUpdateInterval = 30000;
 
     public TorrentsProvidersFacade(List<TorrentsProvider> torrentsProviders, TorrentsProvider defaultProvider) {
