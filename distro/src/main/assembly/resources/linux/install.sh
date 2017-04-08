@@ -24,6 +24,5 @@ sudo chmod 500 $install_dir/my-torrent.jar
 sudo systemctl stop my-torrent.service
 sudo systemctl disable my-torrent.service
 
-sudo ln -s $install_dir/my-torrent.service /etc/systemd/system/my-torrent.service
-sudo systemctl enable my-torrent.service
+sudo systemctl enable $install_dir/my-torrent.service
 sudo systemctl start my-torrent.service
