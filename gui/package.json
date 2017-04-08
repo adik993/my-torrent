@@ -1,7 +1,7 @@
 {
   "name": "gui",
   "version": "1.0.0",
-  "description": "Recommender System GUI",
+  "description": "A torrent client that supports many providers",
   "main": "index.js",
   "scripts": {
     "clean": "rimraf dist",
@@ -13,17 +13,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adik993/magisterka.git"
+    "url": "git+https://github.com/adik993/my-torrent.git"
   },
   "keywords": [
-    "magisterka"
+    "my-torrent"
   ],
   "author": "Adrian Skrobacz",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/adik993/magisterka/issues"
+    "url": "https://github.com/adik993/my-torrent/issues"
   },
-  "homepage": "https://github.com/adik993/magisterka#readme",
+  "homepage": "https://github.com/adik993/my-torrent#readme",
   "devDependencies": {
     "autoprefixer": "^6.7.7",
     "babel-core": "^6.24.0",
