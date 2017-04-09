@@ -26,16 +26,13 @@ export const torrentsFetchData = (query, provider) => dispatch => {
     dispatch(torrentsIsLoading(true));
     dispatch(torrentsHasErrored(false));
     fetch(`/api/search?query=${query}&provider=${provider}`)
-        .then(response => {
-            dispatch(torrentsIsLoading(false));
-            return checkResponse(response)
-        })
+        .then(response => checkResponse(response))
         .then(response => response.json())
         .then(torrents => dispatch(torrentsFetchDataSiccess(torrents)))
         .catch(error => {
             console.error(error);
             dispatch(torrentsHasErrored(true))
-        })
+        }).then(() => dispatch(torrentsIsLoading(false)));
 };
 
 export const torrentsSelectTorrentSuccess = (torrent, chosen) => {

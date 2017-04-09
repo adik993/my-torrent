@@ -33,19 +33,16 @@ export const providerSelectProvider = selectedProvider => {
 export const providerFetchData = () => dispatch => {
     dispatch(providerFetchDataIsLoading(true));
     fetch('/api/providers')
-        .then(response => {
-            dispatch(providerFetchDataIsLoading(false));
-            return checkResponse(response);
-        })
+        .then(response => checkResponse(response))
         .then(response => response.json())
         .then(providers => {
             dispatch(providerFetchDataSuccess(providers));
-            dispatch(providerSelectProvider(providers[0].id))
+            dispatch(providerSelectProvider(providers[0].id));
         })
         .catch(error => {
             console.error(error);
             dispatch(providerFetchDataHasErrored(true))
-        })
+        }).then(() => dispatch(providerFetchDataIsLoading(false)));
 };
 
 export const providerSubscribeProviders = () => dispatch => {
