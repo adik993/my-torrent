@@ -48,12 +48,12 @@ public class TorrentsProvidersFacade {
 
     private void performUpdate(ProviderUpdateContext context) {
         List<Observable<Boolean>> observables = torrentProviders.values().stream()
-                .map(tp -> Observable.defer(() -> Observable.just(tp.checkIfUp())))
+                .map(tp -> Observable.defer(() -> Observable.just(tp.checkIfUp())).onErrorReturnItem(false))
                 .map(o -> o.subscribeOn(Schedulers.io()))
                 .collect(Collectors.toList());
         Observable.merge(observables)
                 .blockingSubscribe(b -> {
-                }, err -> {
+                }, e -> {
                 });
         context.notifyDone();
     }

@@ -20,6 +20,6 @@ public class WebSocketSender {
     public void sendProviders() {
         log.debug("Sending providers through WebSocket");
         List<TorrentsProviderDto> dtos = TorrentsProviderDto.fromCollection(torrentsProvidersFacade.getProviders());
-        simpMessagingTemplate.convertAndSend("/client/providers", dtos);
+        simpMessagingTemplate.convertAndSend(WebSocketTopic.PROVIDERS, dtos);
     }
 }

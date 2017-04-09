@@ -43,8 +43,10 @@ public class TorrentsProvidersFacadeTest {
     @Test
     public void updateUpStatus() throws Exception {
         defaultProvider = spy(new MockProvider(0L, "aaa"));
-        MockProvider bbb = spy(new MockProvider(1L, "bbb"));
-        providers = Arrays.asList(defaultProvider, bbb);
+        MockProvider bbb = spy(new MockProvider(1L, "bbb", 500));
+        MockProvider ccc = spy(new MockProvider(2L, "ccc"));
+        doThrow(new RuntimeException()).when(ccc).checkIfUp();
+        providers = Arrays.asList(defaultProvider, bbb, ccc);
         underTest = new TorrentsProvidersFacade(providers, defaultProvider);
         underTest.setMinUpdateInterval(0);
         ProviderUpdateContext context = mock(ProviderUpdateContext.class);
@@ -62,7 +64,11 @@ public class TorrentsProvidersFacadeTest {
         }).subscribeOn(Schedulers.newThread());
         Observable.merge(Arrays.asList(obs1, obs2)).blockingSubscribe();
         verify(defaultProvider, times(1)).checkIfUp();
+        assertEquals(true, defaultProvider.isUp());
         verify(bbb, times(1)).checkIfUp();
+        assertEquals(true, bbb.isUp());
+        verify(ccc, times(1)).checkIfUp();
+        assertEquals(false, ccc.isUp());
         verify(context, times(1)).notifyDone();
     }
 
@@ -92,6 +98,16 @@ public class TorrentsProvidersFacadeTest {
     private class MockProvider extends TorrentsProvider {
         private final Long id;
         private final String name;
+        private long delay = 0;
+
+        {
+            up.set(false);
+        }
+
+        public MockProvider(Long id, String name, long delay) {
+            this(id, name);
+            this.delay = delay;
+        }
 
         @Override
         public Long getId() {
@@ -115,7 +131,15 @@ public class TorrentsProvidersFacadeTest {
 
         @Override
         public boolean checkIfUp() {
-            return false;
+            if (delay > 0) {
+                try {
+                    Thread.sleep(delay);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            up.set(true);
+            return up.get();
         }
     }
 }
