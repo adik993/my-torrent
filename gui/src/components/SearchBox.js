@@ -8,7 +8,11 @@ class SearchBox extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {query: 'Flash S01E01'}
+        if (process.env.NODE_ENV === 'dev') {
+            this.state = {query: 'Flash S01E01'}
+        } else {
+            this.state = {query: ''}
+        }
     }
 
     onSearch = (event) => {
@@ -21,6 +25,10 @@ class SearchBox extends React.Component {
         this.setState({query})
     };
 
+    componentDidMount() {
+        this.input.focus();
+    }
+
     render() {
         return (
 
@@ -32,6 +40,8 @@ class SearchBox extends React.Component {
                         hintText="Search..."
                         value={this.state.query}
                         onChange={this.onChange}
+                        ref={input => this.input = input}
+                        name="q"
                     />
                     <ProviderSelect />
                 </div>
