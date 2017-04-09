@@ -25,8 +25,6 @@ public class ProvidersUpdateSchedule {
         if (webSocketSessionManager.getConnectionCount(PROVIDERS) > 0) {
             log.debug("Running scheduled providers update");
             torrentsProvidersFacade.updateUpStatus(eventContextFactory.createProviderUpdateContext());
-        } else {
-            log.debug("Skipping scheduled providers update due to no subscribers");
         }
     }
 }
