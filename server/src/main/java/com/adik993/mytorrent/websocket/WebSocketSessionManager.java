@@ -1,8 +1,11 @@
 package com.adik993.mytorrent.websocket;
 
+import lombok.Getter;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
+import org.springframework.jmx.export.annotation.ManagedAttribute;
+import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.AbstractSubProtocolEvent;
@@ -12,9 +15,11 @@ import org.springframework.web.socket.messaging.SessionUnsubscribeEvent;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+@ManagedResource
 @Component
 @Slf4j
 public class WebSocketSessionManager {
+    @Getter(onMethod = @__(@ManagedAttribute))
     private final ConcurrentHashMap<String, ConcurrentHashMap<String, String>> sessions = new ConcurrentHashMap<>();
 
     @EventListener
