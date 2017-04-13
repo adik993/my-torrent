@@ -26,34 +26,30 @@ class Torrent extends React.Component {
         let torrent = this.props.torrent;
         return (
             <tr>
-                <td>
+                <td className="">
                     <Chosen chosen={torrent.chosen} onUnchoose={this.handleUnchoose}/>
                 </td>
-                <td>
-                    {torrent.title}
+                <td className="col-sm-12 col-md-7">
+                    <a className="hover-fill" data-txthover={torrent.title} href={torrent.torrentLink}>{torrent.title}</a>
+                    <ul className="title-data">
+                        <li> <PublishDate date={torrent.publishDate}/>  </li>
+                        <li> <Quality quality={torrent.quality}/> </li>
+                        <li> <User user={torrent.user}/> </li>
+                    </ul>
                 </td>
-                <td>
+                <td className="col-sm-12 col-md-1 text-center">
                     <MagnetLink onMagnetClick={this.handleMagnetClick} magnetLink={torrent.magnetLink}/>
                 </td>
-                <td>
+                <td className="col-sm-12 col-md-1 text-center category">
                     {torrent.category}
                 </td>
-                <td>
-                    <User user={torrent.user}/>
-                </td>
-                <td>
-                    <PublishDate date={torrent.publishDate}/>
-                </td>
-                <td>
-                    <Quality quality={torrent.quality}/>
-                </td>
-                <td>
+                <td className="col-sm-12 col-md-1 text-center">
                     <Size size={torrent.size}/>
                 </td>
-                <td>
+                <td className="col-sm-12 col-md-1 text-center leeches">
                     {torrent.leeches}
                 </td>
-                <td>
+                <td className="col-sm-12 col-md-1 text-center seeds">
                     {torrent.seeds}
                 </td>
             </tr>

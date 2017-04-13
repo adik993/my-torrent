@@ -1,3 +1,47 @@
+//.................KOLORKI......................
+$zielen: #00d473; //pastelowa zielen
+$czerwien: #d42a5a; //~pasetlowa czerwień
+$tekst: #333; // ciemny tekst
+$tekst-jasny: #9e9e9e; // tekst jasny
+$table-bg-hover: #ededed; //table hover
+$table-bg: #f5f5f5; //bg
+$black: #000000;
+$checkbox-size: 15px;
+$checkbox-animation-ripple: 700ms;
+$checkbox-animation-check: 0.3s;
+$lightbg-text: rgba(0, 0, 0, 0.84);
+$checked-colour: #00bcd4; //#2FAEF8;
+
+//.................FONTY......................
+
+@mixin roboto-thin {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 100;
+}
+
+@mixin roboto-light {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
+@mixin roboto-regular {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
+@mixin roboto-medium {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+}
+
+@mixin roboto-bold {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+}
+
+//.............................................
+
+//..............ADONIS STYLE...................
 .search-box {
   display: inline-block;
   padding: 10px;
@@ -13,9 +57,352 @@
 }
 
 table, td, th {
-  border: 1px solid black;
+  //border: 1px solid black;
+  border-bottom: 1px solid;
+  //border-left: 1px solid;
+  border-color: #e0e0e0;
   padding: 3px;
+
 }
-td {
-  color: red;
+
+//.............................................
+
+//...............CHECKBOX.......................
+.tabela {
+  @include roboto-regular;
+  font-size: 16px;
+  color: $tekst;
+  .seeds {
+    color: $zielen;
+  }
+  .leeches {
+    color: $czerwien;
+  }
+}
+
+input {
+  //-moz-appearance:none;
+  //-webkit-appearance:none;
+  //-o-appearance:none;
+  //  border: 2px solid black;
+  //  height: 20px;
+  //  width: 20px;
+  //  border-radius: 20%;
+}
+
+.checkbox {
+  display: inline-block;
+  padding: 10px 20px;
+  transform: translateZ(0);
+  label {
+    cursor: pointer;
+    padding-left: 0; // Reset FOR Bootstrap
+  }
+
+  // nadpisywanie standardowego checkboxa
+  input[type=checkbox] {
+    opacity: 0;
+    position: absolute;
+    margin: 0;
+    z-index: -1;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    left: 0;
+    pointer-events: none;
+  }
+
+  .checkbox-material {
+    vertical-align: middle;
+    position: relative;
+    top: 3px;
+    &:before {
+      position: absolute;
+      left: 8px;
+      top: 2px;
+      content: "";
+      background-color: rgba(0, 0, 0, 0.5);
+      height: 4px;
+      width: 4px;
+      border-radius: 100%;
+      z-index: 1;
+      opacity: 0;
+      margin: 0;
+    }
+
+    .check {
+      position: relative;
+      display: inline-block;
+      width: $checkbox-size;
+      height: $checkbox-size;
+      border: 2px solid;
+      border-radius: 2px;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .check:before {
+      position: absolute;
+      content: "";
+      transform: rotate(45deg);
+      display: block;
+      margin-top: -7px;
+      margin-left: 4px;
+      width: 0;
+      height: 0;
+      box-shadow: 0 0 0 0 inset;
+      animation: checkbox-off $checkbox-animation-check forwards ease-out;
+    }
+  }
+
+  input[type=checkbox]:focus + .checkbox-material .check:after {
+    opacity: 0.2;
+  }
+  input[type=checkbox]:checked + .checkbox-material .check:before {
+    box-shadow: 0 0 0 10px,
+    10px -10px 0 10px,
+    32px 0px 0 20px,
+    0px 32px 0 20px,
+    -5px 5px 0 10px,
+    20px -12px 0 11px;
+    animation: checkbox-on $checkbox-animation-check forwards ease-out;
+  }
+
+  input[type=checkbox]:not(:checked) + .checkbox-material:before {
+    animation: rippleOff $checkbox-animation-ripple forwards ease-out;
+  }
+  input[type=checkbox]:checked + .checkbox-material:before {
+    animation: rippleOn $checkbox-animation-ripple forwards ease-out;
+  }
+
+  // on click
+  input[type=checkbox]:not(:checked) + .checkbox-material .check:after {
+    animation: rippleOff $checkbox-animation-ripple forwards ease-out;
+  }
+  input[type=checkbox]:checked + .checkbox-material .check:after {
+    animation: rippleOn $checkbox-animation-ripple forwards ease-out;
+  }
+
+  // disabled inputs style
+  input[type=checkbox][disabled]:not(:checked) ~ .checkbox-material .check:before,
+  input[type=checkbox][disabled] + .circle {
+    opacity: 0.5;
+  }
+  input[type=checkbox][disabled] + .checkbox-material .check:after {
+    background-color: $lightbg-text;
+    transform: rotate(-45deg);
+  }
+
+}
+
+// kolorowanie
+.coloured {
+  .checkbox-material {
+    .check {
+      color: $checked-colour;
+    }
+    &:before {
+      background-color: $checked-colour;
+    }
+  }
+  input[type=checkbox]:checked + .checkbox-material {
+    .check {
+      color: $checked-colour;
+    }
+  }
+  input[type=checkbox]:not(:checked) + .checkbox-material {
+
+  }
+}
+
+// animacje
+@keyframes checkbox-on {
+  0% {
+    box-shadow: 0 0 0 10px,
+    10px -10px 0 10px,
+    32px 0px 0 20px,
+    0px 32px 0 20px,
+    -5px 5px 0 10px,
+    15px 2px 0 11px;
+  }
+  50% {
+    box-shadow: 0 0 0 10px,
+    10px -10px 0 10px,
+    32px 0px 0 20px,
+    0px 32px 0 20px,
+    -5px 5px 0 10px,
+    20px 2px 0 11px;
+  }
+  100% {
+    box-shadow: 0 0 0 10px,
+    10px -10px 0 10px,
+    32px 0px 0 20px,
+    0px 32px 0 20px,
+    -5px 5px 0 10px,
+    20px -12px 0 11px;
+  }
+}
+
+@keyframes checkbox-off {
+  0% {
+    box-shadow: 0 0 0 10px,
+    10px -10px 0 10px,
+    32px 0px 0 20px,
+    0px 32px 0 20px,
+    -5px 5px 0 10px,
+    20px -12px 0 11px,
+    0 0 0 0 inset;
+  }
+
+  25% {
+    box-shadow: 0 0 0 10px,
+    10px -10px 0 10px,
+    32px 0px 0 20px,
+    0px 32px 0 20px,
+    -5px 5px 0 10px,
+    20px -12px 0 11px,
+    0 0 0 0 inset;
+  }
+  50% {
+    transform: rotate(45deg);
+    margin-top: -4px;
+    margin-left: 6px;
+    width: 0px;
+    height: 0px;
+    box-shadow: 0 0 0 10px,
+    10px -10px 0 10px,
+    32px 0px 0 20px,
+    0px 32px 0 20px,
+    -5px 5px 0 10px,
+    15px 2px 0 11px,
+    0 0 0 0 inset;
+  }
+  51% {
+    transform: rotate(0deg);
+    margin-top: -2px;
+    margin-left: -2px;
+    width: 20px;
+    height: 20px;
+    box-shadow: 0px 0px 0 10px inset;
+  }
+  100% {
+    transform: rotate(0deg);
+    margin-top: -2px;
+    margin-left: -2px;
+    width: 20px;
+    height: 20px;
+    box-shadow: 0px 0px 0 0px inset;
+  }
+}
+
+@keyframes rippleOn {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(13, 13);
+  }
+}
+
+@keyframes rippleOff {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(13, 13);
+  }
+}
+
+div.checkbox {
+  padding-top: 6px;
+  padding-left: 0;
+  padding-right: 10px;
+}
+
+//....................table format....................
+
+ul.title-data {
+  margin-bottom: 0;
+  padding-left: 0;
+  li {
+    display: inline-block;
+    padding-right: 20px;
+    @include roboto-regular;
+    font-size: 14px;
+    color: $tekst-jasny;
+  }
+}
+
+td.col-md-7 {
+  padding-left: 15px;
+  padding-right: 0;
+  font-size: 16px;
+}
+
+td.col-md-1 {
+  padding-left: 0;
+  padding-right: 0;
+
+}
+
+td.category {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+div.checkbox {
+  padding-left: 20px;
+}
+
+//......................................................
+//...............INPUT COLOR FIX........................
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
+//...................TITLE LINK HOVER...................
+a.hover-fill {
+  position: relative;
+  // font-size: 14px;
+  // letter-spacing: 1px;
+  text-decoration: none;
+  // text-transform: uppercase;
+  color: $tekst;
+  transition: all .5s;
+
+  &:hover {
+    color: transparent;
+
+    &:after {
+      max-width: 100%;
+    }
+  }
+
+  &:after {
+    content: attr(data-txthover);
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: 0;
+    color: $checked-colour;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: max-width .5s ease-out;
+  }
+}
+
+//................tabelka hover ......................
+.table-hover {
+  > tbody > tr:hover {
+    > td,
+    > th {
+      background-color: $table-bg-hover;
+    }
+  }
+}
+
+//................body color......................
+body {
+  background-color: $table-bg;
 }
