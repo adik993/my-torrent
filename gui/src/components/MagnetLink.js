@@ -4,7 +4,7 @@ const MagnetLink = props => {
     return (
         <div>
             <a onClick={props.onMagnetClick} href={props.magnetLink}>
-                <i className="glyphicon glyphicon-magnet" aria-hidden="true"/>
+                 <i className="icon-magnet-1 magnet magnets-bitch"/>
             </a>
         </div>
     );

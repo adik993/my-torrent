@@ -327,12 +327,49 @@ ul.title-data {
   padding-left: 0;
   li {
     display: inline-block;
-    padding-right: 20px;
+    padding-right: 10px;
     @include roboto-regular;
     font-size: 14px;
     color: $tekst-jasny;
   }
+  i {
+    font-size: 12px;
+    &.vip {
+      color: $checked-colour;
+    }
+    &.trust {
+      color: $zielen;
+    }
+    &.unknown {
+      color: $czerwien;
+    }
+  }
 }
+i.magnets-bitch {
+  color: $checked-colour;
+  font-size: 14px;
+  padding: 10px 8px 3px 8px;
+  //background-color: transparent;
+  //border-radius: 50%;
+  transition: all 1s ease-in-out;
+
+  &:hover {
+    color: $tekst;
+    transform: scale(1.1);
+    //background-color: $checked-colour;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 td.col-md-7 {
   padding-left: 15px;
@@ -406,3 +443,4 @@ a.hover-fill {
 body {
   background-color: $table-bg;
 }
+//................IKONKI GLYPHTER......................
