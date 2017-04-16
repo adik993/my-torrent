@@ -17,7 +17,7 @@ class ResultsList extends React.Component {
             <div className="text-left tabela">
                 <table className="table-hover">
                     <thead>
-                    <tr>
+                    <tr className="visible-md visible-lg">
                         <th>
 
                         </th>

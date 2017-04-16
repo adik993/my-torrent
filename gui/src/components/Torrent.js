@@ -25,7 +25,7 @@ class Torrent extends React.Component {
     render() {
         let torrent = this.props.torrent;
         return (
-            <tr>
+            <tr className="">
                 <td className="">
                     <Chosen chosen={torrent.chosen} onUnchoose={this.handleUnchoose}/>
                 </td>
@@ -35,24 +35,32 @@ class Torrent extends React.Component {
                         <li> <PublishDate date={torrent.publishDate}/>  </li>
                         <li> <Quality quality={torrent.quality}/> </li>
                         <li> <User user={torrent.user}/> </li>
+                        <li className="hidden-md hidden-lg"> {torrent.category} </li>
+                        <li className="hidden-md hidden-lg"> <Size size={torrent.size}/> </li>
+                        <li className="hidden-md hidden-lg">L: {torrent.leeches} </li>
+                        <li className="hidden-md hidden-lg">S: {torrent.seeds} </li>
+
                     </ul>
                 </td>
-                <td className="col-sm-12 col-md-1 text-center">
+                <td className="col-sm-12 col-md-1 text-center visible-md visible-lg">
                     <MagnetLink onMagnetClick={this.handleMagnetClick} magnetLink={torrent.magnetLink}/>
                 </td>
-                <td className="col-sm-12 col-md-1 text-center category">
+                <td className="col-sm-12 col-md-1 text-center category visible-md visible-lg">
                     {torrent.category}
                 </td>
-                <td className="col-sm-12 col-md-1 text-center">
+                <td className="col-sm-12 col-md-1 text-center visible-md visible-lg">
                     <Size size={torrent.size}/>
                 </td>
-                <td className="col-sm-12 col-md-1 text-center leeches">
+                <td className="col-sm-12 col-md-1 text-center leeches visible-md visible-lg">
                     {torrent.leeches}
                 </td>
-                <td className="col-sm-12 col-md-1 text-center seeds">
+                <td className="col-sm-12 col-md-1 text-center seeds visible-md visible-lg">
                     {torrent.seeds}
                 </td>
             </tr>
+
+
+
         );
     }
 }

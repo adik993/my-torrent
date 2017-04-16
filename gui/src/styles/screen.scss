@@ -362,15 +362,6 @@ i.magnets-bitch {
 
 
 
-
-
-
-
-
-
-
-
-
 td.col-md-7 {
   padding-left: 15px;
   padding-right: 0;
@@ -444,3 +435,18 @@ body {
   background-color: $table-bg;
 }
 //................IKONKI GLYPHTER......................
+@media screen and (max-width : 992px) {
+
+  a.hover-fill {
+    font-size: 20px;
+  }
+td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+  ul.title-data {
+    li {
+      font-size: 18px;
+    }
+  }
+}
