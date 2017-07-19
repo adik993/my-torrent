@@ -1,0 +1,19 @@
+{
+  "properties": [
+    {
+      "name": "tc.providers.update-interval",
+      "type": "java.lang.String",
+      "description": "Interval in millis between provider status(UP/DOWN) update, when someone is viewing page"
+    },
+    {
+      "name": "tc.providers.min-update-interval",
+      "type": "java.lang.String",
+      "description": "How frequent in milliseconds can status update be invoked, whether manual or automatic controlled by tc.providers.update-interval"
+    },
+    {
+      "name": "tc.providers.default",
+      "type": "java.lang.String",
+      "description": "Name of defualt provider. For now two certainly available names are: thepiratebay.org and automatic"
+    }
+  ]
+}
