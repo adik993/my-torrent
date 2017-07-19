@@ -33,4 +33,9 @@ public class VoidReceiverTest {
         verify(underTest, never()).consume(any());
     }
 
+    @Test(expected = RuntimeException.class)
+    public void consumeWithParameterShouldNotBeUsed() {
+        underTest.consume(null);
+    }
+
 }

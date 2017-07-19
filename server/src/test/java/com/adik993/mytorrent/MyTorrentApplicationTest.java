@@ -12,4 +12,9 @@ public class MyTorrentApplicationTest {
     public void contextLoads() throws Exception {
     }
 
+    @Test
+    public void main() {
+        MyTorrentApplication.main(new String[]{"--spring.main.web-environment=false",});
+    }
+
 }
