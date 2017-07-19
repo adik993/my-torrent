@@ -7,7 +7,9 @@ export const torrents = (state = [], action) => {
             return action.torrents;
         case types.TORRENTS_SELECT_TORRENT_SUCCESS:
             let index = _.findIndex(state, {id: action.torrent.id});
+            let chosenIndex = _.findIndex(state, {chosen: true});
             let tmp = state.slice();
+            tmp[chosenIndex] = {...tmp[chosenIndex], chosen: false};
             tmp[index] = {...action.torrent, chosen: action.chosen};
             return tmp;
         default:

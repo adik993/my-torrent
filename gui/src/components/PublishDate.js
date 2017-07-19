@@ -4,7 +4,7 @@ import moment from "moment";
 const PublishDate = props => {
     return (
         <div>
-            {moment(props.date).format('YYYY-MM-DD HH:mm')}
+            {moment(props.date).format('YYYY-MM-DD')}
         </div>
     );
 };

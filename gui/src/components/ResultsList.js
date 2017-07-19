@@ -14,38 +14,29 @@ class ResultsList extends React.Component {
             return (<h1>No content</h1>)
         }
         return (
-            <div className="text-left">
-                <table>
+            <div className="text-left tabela">
+                <table className="table-hover">
                     <thead>
-                    <tr>
+                    <tr className="visible-md visible-lg">
                         <th>
-                            Chosen
+
                         </th>
-                        <th>
+                        <th className="col-sm-12 col-md-6">
                             Title
                         </th>
-                        <th>
-                            Magnet Link
+                        <th className="col-md-1 text-center">
+                            Link
                         </th>
-                        <th>
+                        <th className="col-md-1 text-center">
                             Category
                         </th>
-                        <th>
-                            User
-                        </th>
-                        <th>
-                            Publish date
-                        </th>
-                        <th>
-                            Quality
-                        </th>
-                        <th>
+                        <th className="col-md-1 text-center">
                             Size
                         </th>
-                        <th>
+                        <th className="col-md-1 text-center">
                             Leech
                         </th>
-                        <th>
+                        <th className="col-md-1 text-center">
                             Seed
                         </th>
                     </tr>
