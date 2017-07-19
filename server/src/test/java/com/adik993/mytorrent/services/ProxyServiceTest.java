@@ -28,27 +28,12 @@ public class ProxyServiceTest {
     }
 
     @Test
-    public void init() throws Exception {
-        underTest.init();
-        List<Proxy> proxyList = underTest.getProxyList();
-        assertEquals(proxies.size() + 1, proxyList.size());
-        for (int i = 0; i < proxyList.size(); i++) {
-            assertEquals(i, proxyList.get(i).getId());
-        }
-    }
-
-    @Test
     public void getProxyList() throws Exception {
         underTest.init();
         assertEquals(proxies.size() + 1, underTest.getProxyList().size());
-    }
-
-    @Test
-    public void getProxy() throws Exception {
-        underTest.init();
-        assertEquals(proxies.get(0), underTest.getProxy(1));
-        assertEquals(ProxyService.tpborg, underTest.getProxy(123123));
-        assertEquals(ProxyService.tpborg, underTest.getProxy(null));
+        assertEquals(ProxyService.tpborg, underTest.getProxyList().get(0));
+        assertEquals(proxies.get(0), underTest.getProxyList().get(1));
+        assertEquals(proxies.get(1), underTest.getProxyList().get(2));
     }
 
 }

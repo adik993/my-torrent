@@ -20,7 +20,7 @@ public abstract class TorrentsProvider {
 
     public abstract List<String> getCategories();
 
-    public boolean supportsCategory(String category) {
+    boolean supportsCategory(String category) {
         return getCategories().contains(category);
     }
 
@@ -28,7 +28,7 @@ public abstract class TorrentsProvider {
 
     public abstract boolean checkIfUp();
 
-    public boolean isUp() {
+    boolean isUp() {
         return up.get();
     }
 

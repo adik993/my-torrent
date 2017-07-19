@@ -18,6 +18,6 @@ public abstract class VoidReceiver extends Receiver<Void> {
 
     @Override
     protected void consume(Void obj) {
-
+        throw new RuntimeException("Use consume() instead");
     }
 }
