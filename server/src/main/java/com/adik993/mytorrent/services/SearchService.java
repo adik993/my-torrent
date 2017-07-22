@@ -4,8 +4,8 @@ import com.adik993.mytorrent.model.Search;
 import com.adik993.mytorrent.model.SearchResult;
 import com.adik993.mytorrent.notification.contexts.SearchContext;
 import com.adik993.mytorrent.providers.Page;
-import com.adik993.mytorrent.providers.TorrentsProvider;
-import com.adik993.mytorrent.providers.TorrentsProvidersFacade;
+import com.adik993.mytorrent.providers.TorrentProvider;
+import com.adik993.mytorrent.providers.TorrentProviderFacade;
 import com.adik993.mytorrent.repository.SearchRepository;
 import com.adik993.tpbclient.exceptions.ParseException;
 import com.adik993.tpbclient.model.Torrent;
@@ -23,11 +23,11 @@ import java.util.List;
 @Slf4j
 public class SearchService {
     private final SearchRepository searchRepository;
-    private final TorrentsProvidersFacade torrentsProvidersFacade;
+    private final TorrentProviderFacade torrentProviderFacade;
 
     public List<SearchResult> search(SearchContext searchContext, String query, Long providerId) throws IOException, ParseException {
         Search search = saveQuery(query, providerId);
-        TorrentsProvider provider = torrentsProvidersFacade.get(providerId);
+        TorrentProvider provider = torrentProviderFacade.get(providerId);
         log.debug("Calling search on provider {}", provider);
         Page<Torrent> result;
         try {

@@ -12,12 +12,12 @@ import java.util.List;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class TorrentsProviderTest {
-    private TorrentsProvider underTest;
+public class TorrentProviderTest {
+    private TorrentProvider underTest;
 
     @Before
     public void init() {
-        underTest = new TorrentsProvider() {
+        underTest = new TorrentProvider() {
             @Override
             public String getName() {
                 return null;

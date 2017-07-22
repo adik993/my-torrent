@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
-public class ProxyService {
+public class TpbProxyService {
     private final ProxyList proxyList;
     static final Proxy tpborg = Proxy.builder()
             .domain(TpbClient.DEFAULT_HOST)

@@ -1,7 +1,7 @@
 package com.adik993.mytorrent.rest;
 
-import com.adik993.mytorrent.providers.TorrentsProviderDto;
-import com.adik993.mytorrent.providers.TorrentsProvidersFacade;
+import com.adik993.mytorrent.providers.TorrentProviderDto;
+import com.adik993.mytorrent.providers.TorrentProviderFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +14,10 @@ import java.util.List;
 @RequestMapping("/api/providers")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ProvidersController {
-    private final TorrentsProvidersFacade torrentsProvidersFacade;
+    private final TorrentProviderFacade torrentProviderFacade;
 
     @GetMapping
-    public List<TorrentsProviderDto> getProviders() {
-        return TorrentsProviderDto.fromCollection(torrentsProvidersFacade.getProviders());
+    public List<TorrentProviderDto> getProviders() {
+        return TorrentProviderDto.fromCollection(torrentProviderFacade.getProviders());
     }
 }

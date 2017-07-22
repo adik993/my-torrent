@@ -12,8 +12,8 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ProxyServiceTest {
-    private ProxyService underTest;
+public class TpbProxyServiceTest {
+    private TpbProxyService underTest;
     private List<Proxy> proxies = Arrays.asList(
             Proxy.builder().domain("aaa.com").build(),
             Proxy.builder().domain("bbb.com").build()
@@ -23,7 +23,7 @@ public class ProxyServiceTest {
     public void setUp() {
         ProxyList proxyList = mock(ProxyList.class);
         when(proxyList.getProxyListIfPresent()).thenReturn(proxies);
-        underTest = new ProxyService(proxyList);
+        underTest = new TpbProxyService(proxyList);
 
     }
 
@@ -31,7 +31,7 @@ public class ProxyServiceTest {
     public void getProxyList() throws Exception {
         underTest.init();
         assertEquals(proxies.size() + 1, underTest.getProxyList().size());
-        assertEquals(ProxyService.tpborg, underTest.getProxyList().get(0));
+        assertEquals(TpbProxyService.tpborg, underTest.getProxyList().get(0));
         assertEquals(proxies.get(0), underTest.getProxyList().get(1));
         assertEquals(proxies.get(1), underTest.getProxyList().get(2));
     }

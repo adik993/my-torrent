@@ -1,9 +1,9 @@
 package com.adik993.mytorrent.config;
 
 import com.adik993.mytorrent.providers.AutomaticProvider;
-import com.adik993.mytorrent.providers.TorrentsProvidersFacade;
+import com.adik993.mytorrent.providers.TorrentProviderFacade;
 import com.adik993.mytorrent.providers.TpbProvider;
-import com.adik993.mytorrent.services.ProxyService;
+import com.adik993.mytorrent.services.TpbProxyService;
 import com.adik993.tpbclient.proxy.ProxyList;
 import com.adik993.tpbclient.proxy.model.Proxy;
 import org.junit.Before;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 public class ProvidersConfigTest {
 
     private ProvidersConfig underTest;
-    private ProxyService proxyService;
+    private TpbProxyService tpbProxyService;
     private List<Proxy> proxies = Arrays.asList(
             Proxy.builder().domain("a.com").build(),
             Proxy.builder().domain("b.com").build(),
@@ -31,19 +31,19 @@ public class ProvidersConfigTest {
         underTest = new ProvidersConfig();
         ProxyList proxyList = mock(ProxyList.class);
         when(proxyList.getProxyListIfPresent()).thenReturn(proxies);
-        proxyService = new ProxyService(proxyList);
-        proxyService.init();
+        tpbProxyService = new TpbProxyService(proxyList);
+        tpbProxyService.init();
     }
 
     @Test
     public void createTorrentsProvidersFacadeAllDefinedProvidersShoulBeAvailable() throws Exception {
-        TorrentsProvidersFacade facade = underTest.torrentsProvidersFacade(proxyService, "aaa");
+        TorrentProviderFacade facade = underTest.torrentsProvidersFacade(tpbProxyService, "aaa");
         assertEquals("Should have all proxied plus default tpb and automatic", proxies.size() + 2, facade.getProviders().size());
     }
 
     @Test
     public void createTorrentsProvidersFacadeDefaultAutomaticShouldBeFound() throws Exception {
-        TorrentsProvidersFacade facade = underTest.torrentsProvidersFacade(proxyService, "automatic");
+        TorrentProviderFacade facade = underTest.torrentsProvidersFacade(tpbProxyService, "automatic");
         assertNotNull(facade.getDefaultProvider());
         assertEquals(facade.getDefaultProvider(), facade.getProviders().iterator().next());
         assertTrue("Should be instance of automatic provider", facade.getDefaultProvider() instanceof AutomaticProvider);
@@ -52,7 +52,7 @@ public class ProvidersConfigTest {
 
     @Test
     public void createTorrentsProvidersFacadeDefaultThepiratebayorgShouldBeFound() throws Exception {
-        TorrentsProvidersFacade facade = underTest.torrentsProvidersFacade(proxyService, "thepiratebay.org");
+        TorrentProviderFacade facade = underTest.torrentsProvidersFacade(tpbProxyService, "thepiratebay.org");
         assertNotNull(facade.getDefaultProvider());
         assertEquals(facade.getDefaultProvider(), facade.getProviders().iterator().next());
         assertTrue("Should be instance of TpbProvider", facade.getDefaultProvider() instanceof TpbProvider);

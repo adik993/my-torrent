@@ -36,7 +36,7 @@ public class AutomaticProviderTest {
 
     @Test
     public void searchWithOneFailShouldNotThrowError() throws Exception {
-        List<TorrentsProvider> providers = Arrays.asList(
+        List<TorrentProvider> providers = Arrays.asList(
                 spy(new MockProvider(500, true)),
                 spy(new MockProvider(1000, false))
         );
@@ -49,7 +49,7 @@ public class AutomaticProviderTest {
 
     @Test(expected = IOException.class)
     public void searchWithAllProvidersErredShouldThrowIOException() throws Exception {
-        List<TorrentsProvider> providers = Collections.singletonList(
+        List<TorrentProvider> providers = Collections.singletonList(
                 spy(new MockProvider(500, true))
         );
         underTest = new AutomaticProvider(providers);
@@ -77,7 +77,7 @@ public class AutomaticProviderTest {
     }
 
     @RequiredArgsConstructor
-    static class MockProvider extends TorrentsProvider {
+    static class MockProvider extends TorrentProvider {
 
         private final long timeout;
         private final boolean error;

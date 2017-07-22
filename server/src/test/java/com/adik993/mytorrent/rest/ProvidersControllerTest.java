@@ -1,6 +1,6 @@
 package com.adik993.mytorrent.rest;
 
-import com.adik993.mytorrent.providers.TorrentsProvidersFacade;
+import com.adik993.mytorrent.providers.TorrentProviderFacade;
 import com.adik993.mytorrent.providers.TpbProvider;
 import com.adik993.tpbclient.TpbClient;
 import org.junit.Before;
@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class ProvidersControllerTest {
     @MockBean
-    private TorrentsProvidersFacade torrentsProvidersFacade;
+    private TorrentProviderFacade torrentProviderFacade;
     @Autowired
     private MockMvc mockMvc;
 
@@ -35,7 +35,7 @@ public class ProvidersControllerTest {
     public void setUp() {
         TpbProvider provider = new TpbProvider(TpbClient.withHost("aaa.com"));
         provider.setId(0L);
-        given(torrentsProvidersFacade.getProviders())
+        given(torrentProviderFacade.getProviders())
                 .willReturn(Collections.singleton(provider));
     }
 

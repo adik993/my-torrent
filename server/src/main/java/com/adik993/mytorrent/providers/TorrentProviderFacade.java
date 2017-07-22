@@ -14,27 +14,27 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class TorrentsProvidersFacade {
-    private final Map<Long, TorrentsProvider> torrentProviders;
+public class TorrentProviderFacade {
+    private final Map<Long, TorrentProvider> torrentProviders;
     @Getter
-    private final TorrentsProvider defaultProvider;
+    private final TorrentProvider defaultProvider;
     private final AtomicBoolean updating = new AtomicBoolean();
     private volatile long lastUpdate = 0;
     @Setter(onMethod = @__(@Value("#{${tc.providers.min-update-interval}}")))
     private long minUpdateInterval = 30000;
 
-    public TorrentsProvidersFacade(List<TorrentsProvider> torrentsProviders, String defaultProviderName) {
-        TreeSet<TorrentsProvider> providers = prepareSortedProviders(torrentsProviders, defaultProviderName);
+    public TorrentProviderFacade(List<TorrentProvider> torrentProviders, String defaultProviderName) {
+        TreeSet<TorrentProvider> providers = prepareSortedProviders(torrentProviders, defaultProviderName);
         this.defaultProvider = providers.first();
         this.torrentProviders = providers.stream()
-                .collect(Collectors.toMap(TorrentsProvider::getId, t -> t, (t1, t2) -> t2, LinkedHashMap::new));
+                .collect(Collectors.toMap(TorrentProvider::getId, t -> t, (t1, t2) -> t2, LinkedHashMap::new));
     }
 
-    public TorrentsProvider get(Long id) {
+    public TorrentProvider get(Long id) {
         return torrentProviders.getOrDefault(id, defaultProvider);
     }
 
-    public Collection<TorrentsProvider> getProviders() {
+    public Collection<TorrentProvider> getProviders() {
         return torrentProviders.values();
     }
 
@@ -62,8 +62,8 @@ public class TorrentsProvidersFacade {
         context.notifyDone();
     }
 
-    private TreeSet<TorrentsProvider> prepareSortedProviders(List<TorrentsProvider> providers, String defaultProviderName) {
-        TreeSet<TorrentsProvider> set = new TreeSet<>(new TorrentsProviderComparator(defaultProviderName));
+    private TreeSet<TorrentProvider> prepareSortedProviders(List<TorrentProvider> providers, String defaultProviderName) {
+        TreeSet<TorrentProvider> set = new TreeSet<>(new TorrentsProviderComparator(defaultProviderName));
         set.addAll(providers);
         long[] id = {0};
         set.forEach(torrentsProvider -> torrentsProvider.setId(id[0]++));
@@ -71,11 +71,11 @@ public class TorrentsProvidersFacade {
     }
 
     @RequiredArgsConstructor
-    private static class TorrentsProviderComparator implements Comparator<TorrentsProvider> {
+    private static class TorrentsProviderComparator implements Comparator<TorrentProvider> {
         private final String defaultProviderName;
 
         @Override
-        public int compare(TorrentsProvider o1, TorrentsProvider o2) {
+        public int compare(TorrentProvider o1, TorrentProvider o2) {
             if (defaultProviderName.equals(o1.getName())) return -1;
             else if (o1.getName().equals(o2.getName())) return 0;
             else return 1;

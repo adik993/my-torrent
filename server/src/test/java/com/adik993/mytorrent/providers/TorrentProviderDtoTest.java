@@ -12,19 +12,19 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 
-public class TorrentsProviderDtoTest {
-    private TorrentsProvider torrentsProvider;
-    private TorrentsProvider torrentsProvider2;
+public class TorrentProviderDtoTest {
+    private TorrentProvider torrentProvider;
+    private TorrentProvider torrentProvider2;
 
     @Before
     public void init() {
-        torrentsProvider = prep(3L, "aaa", true);
-        torrentsProvider2 = prep(1L, "bbb", false);
+        torrentProvider = prep(3L, "aaa", true);
+        torrentProvider2 = prep(1L, "bbb", false);
     }
 
     @Test
     public void from() throws Exception {
-        TorrentsProviderDto dto = TorrentsProviderDto.from(torrentsProvider);
+        TorrentProviderDto dto = TorrentProviderDto.from(torrentProvider);
         assertEquals(Long.valueOf(3L), dto.getId());
         assertEquals("aaa", dto.getName());
         assertEquals(true, dto.isUp());
@@ -32,7 +32,7 @@ public class TorrentsProviderDtoTest {
 
     @Test
     public void fromCollection() throws Exception {
-        List<TorrentsProviderDto> dtos = TorrentsProviderDto.fromCollection(Arrays.asList(torrentsProvider, torrentsProvider2));
+        List<TorrentProviderDto> dtos = TorrentProviderDto.fromCollection(Arrays.asList(torrentProvider, torrentProvider2));
         assertEquals(Long.valueOf(3L), dtos.get(0).getId());
         assertEquals("aaa", dtos.get(0).getName());
         assertEquals(true, dtos.get(0).isUp());
@@ -42,8 +42,8 @@ public class TorrentsProviderDtoTest {
     }
 
 
-    private TorrentsProvider prep(Long id, String name, boolean isUp) {
-        TorrentsProvider provider = new TorrentsProvider() {
+    private TorrentProvider prep(Long id, String name, boolean isUp) {
+        TorrentProvider provider = new TorrentProvider() {
             {
                 up.set(isUp);
             }

@@ -15,8 +15,8 @@ import static com.adik993.mytorrent.websocket.WebSocketTopic.PROVIDERS;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @ConditionalOnExpression("${tc.providers.update-interval}>0")
 @Slf4j
-public class ProvidersUpdateSchedule {
-    private final TorrentsProvidersFacade torrentsProvidersFacade;
+public class ProviderUpdateSchedule {
+    private final TorrentProviderFacade torrentProviderFacade;
     private final EventContextFactory eventContextFactory;
     private final WebSocketSessionManager webSocketSessionManager;
 
@@ -24,7 +24,7 @@ public class ProvidersUpdateSchedule {
     public void updateProviders() {
         if (webSocketSessionManager.getConnectionCount(PROVIDERS) > 0) {
             log.debug("Running scheduled providers update");
-            torrentsProvidersFacade.updateUpStatus(eventContextFactory.createProviderUpdateContext());
+            torrentProviderFacade.updateUpStatus(eventContextFactory.createProviderUpdateContext());
         }
     }
 }
