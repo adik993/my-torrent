@@ -19,9 +19,9 @@
             <encoder>
                 <pattern>${FILE_LOG_PATTERN}</pattern>
             </encoder>
-            <file>${LOG_FILE}</file>
+            <file>logs/${LOG_FILE}</file>
             <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-                <fileNamePattern>${LOG_FILE}.%i.gz</fileNamePattern>
+                <fileNamePattern>logs/${LOG_FILE}.%i.gz</fileNamePattern>
                 <maxIndex>5</maxIndex>
             </rollingPolicy>
             <triggeringPolicy
