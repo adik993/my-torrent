@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "io.franzbecker:gradle-lombok:${lombokPluginVersion}"
+        classpath "io.spring.gradle:dependency-management-plugin:${dependencyManagementPluginVersion}"
+    }
+}
+
+allprojects {
+    apply plugin: "idea"
+    apply plugin: "project-report"
+
+    group = "com.adik993"
+    version = "1.0-SNAPSHOT"
+}
+
+subprojects {
+    apply plugin: "java"
+    apply plugin: "io.franzbecker.gradle-lombok"
+    apply plugin: "io.spring.dependency-management"
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    lombok {
+        version = "${lombokVersion}"
+        sha256 = ""
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+        }
+
+        dependencies {
+            //noinspection GroovyAssignabilityCheck
+            dependency "com.adik993:tpb-client:${tpbClientVersion}"
+        }
+    }
+}

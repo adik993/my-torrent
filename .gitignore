@@ -11,11 +11,14 @@
 bin
 gen
 .gradle
+gradle/
 build
 .settings
 target
 local.properties
 *.apk
+gradlew
+gradlew.bat
 
 #Eclipse files
 .settings/
@@ -25,6 +28,7 @@ local.properties
 #Intellij project files
 .idea
 *.iml
+*.iws
 
 #Project specific
 *.db

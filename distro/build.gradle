@@ -1,0 +1,45 @@
+apply plugin: 'distribution'
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "http://repo.jenkins-ci.org/releases" }
+    }
+}
+
+configurations {
+    windows
+    common
+}
+
+distributions {
+    linux {
+        contents {
+            eachFile {
+                if (it.name.endsWith('.sh')) it.setMode(500)
+            }
+
+            from(configurations.common) {
+                rename { 'my-torrent.jar' }
+            }
+        }
+    }
+    windows {
+        contents {
+            from(configurations.windows) {
+                rename { 'my-torrent.exe' }
+            }
+
+            from(configurations.common) {
+                rename { 'my-torrent.jar' }
+            }
+        }
+    }
+}
+
+dependencies {
+    windows "com.sun.winsw:winsw:2.0.3:bin@exe"
+    common(project(":server")) {
+        exclude group: '*', module: '*'
+    }
+}

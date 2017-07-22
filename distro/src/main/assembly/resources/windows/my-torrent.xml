@@ -1,9 +1,0 @@
-<service>
-    <id>my-torrent</id>
-    <name>my-torrent</name>
-    <description>A torrent client that supports many providers</description>
-    <env name="MY_TORRENT_HOME" value="%BASE%"/>
-    <executable>java</executable>
-    <arguments>-jar "%BASE%\my-torrent.jar" --spring.profiles.active=prod</arguments>
-    <logmode>rotate</logmode>
-</service>
