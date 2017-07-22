@@ -1,0 +1,24 @@
+apply plugin: "org.springframework.boot"
+
+bootRepackage {
+    executable = true
+}
+
+jar.finalizedBy bootRepackage
+
+dependencies {
+    compileOnly "org.springframework.boot:spring-boot-configuration-processor"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.springframework.boot:spring-boot-starter-jdbc"
+    compile "org.springframework.boot:spring-boot-starter-websocket"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+    compile "io.projectreactor:reactor-bus"
+    compile "com.h2database:h2"
+
+    compile "com.adik993:tpb-client"
+    compile project(":gui")
+
+    testCompile "org.springframework.boot:spring-boot-starter-test"
+    testCompile "junit:junit"
+}

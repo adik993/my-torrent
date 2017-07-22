@@ -1,0 +1,16 @@
+plugins {
+    id "com.moowork.node" version "1.2.0"
+}
+
+task npm_build_dist(type: NpmTask, dependsOn: npmInstall) {
+    args = ['run', 'build:dist']
+    inputs.files(fileTree("src"), fileTree("config"))
+    outputs.dir("$buildDir/classes")
+}
+
+jar {
+    dependsOn npm_build_dist
+    from("$buildDir/classes") {
+        include 'public/*'
+    }
+}
