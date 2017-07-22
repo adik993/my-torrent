@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TpbProvider extends TorrentsProvider {
+public class TpbProvider extends TorrentProvider {
 
     private final TpbClient tpbClient;
     private final List<String> categories;

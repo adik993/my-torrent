@@ -9,32 +9,32 @@ import static com.adik993.mytorrent.websocket.WebSocketTopic.PROVIDERS;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
-public class ProvidersUpdateScheduleTest {
-    private ProvidersUpdateSchedule underTest;
-    private TorrentsProvidersFacade torrentsProvidersFacade;
+public class ProviderUpdateScheduleTest {
+    private ProviderUpdateSchedule underTest;
+    private TorrentProviderFacade torrentProviderFacade;
     private EventContextFactory eventContextFactory;
     private WebSocketSessionManager webSocketSessionManager;
 
     @Before
     public void init() {
-        torrentsProvidersFacade = mock(TorrentsProvidersFacade.class);
+        torrentProviderFacade = mock(TorrentProviderFacade.class);
         eventContextFactory = mock(EventContextFactory.class);
         webSocketSessionManager = mock(WebSocketSessionManager.class);
         when(webSocketSessionManager.getConnectionCount(PROVIDERS)).thenReturn(1L);
-        underTest = new ProvidersUpdateSchedule(torrentsProvidersFacade, eventContextFactory, webSocketSessionManager);
+        underTest = new ProviderUpdateSchedule(torrentProviderFacade, eventContextFactory, webSocketSessionManager);
     }
 
     @Test
     public void updateProvidersWithSomeSubscribers() throws Exception {
         underTest.updateProviders();
-        verify(torrentsProvidersFacade, times(1)).updateUpStatus(any());
+        verify(torrentProviderFacade, times(1)).updateUpStatus(any());
     }
 
     @Test
     public void updateProvidersWithNoSubscribers() throws Exception {
         when(webSocketSessionManager.getConnectionCount(PROVIDERS)).thenReturn(0L);
         underTest.updateProviders();
-        verify(torrentsProvidersFacade, times(0)).updateUpStatus(any());
+        verify(torrentProviderFacade, times(0)).updateUpStatus(any());
     }
 
 }

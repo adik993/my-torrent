@@ -19,11 +19,11 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 
-public class TorrentsProvidersFacadeTest {
-    private TorrentsProvidersFacade underTest;
-    private TorrentsProvider defaultProvider = new MockProvider(0L, "aaa");
-    private List<TorrentsProvider> providers = Arrays.asList(defaultProvider, new MockProvider(1L, "bbb"));
-    private final List<TorrentsProvider> toBeSorted = Arrays.asList(
+public class TorrentProvidersFacadeTest {
+    private TorrentProviderFacade underTest;
+    private TorrentProvider defaultProvider = new MockProvider(0L, "aaa");
+    private List<TorrentProvider> providers = Arrays.asList(defaultProvider, new MockProvider(1L, "bbb"));
+    private final List<TorrentProvider> toBeSorted = Arrays.asList(
             MockProvider.forName("a"),
             MockProvider.forName("b"),
             MockProvider.forName("c"),
@@ -33,7 +33,7 @@ public class TorrentsProvidersFacadeTest {
 
     @Before
     public void init() {
-        underTest = new TorrentsProvidersFacade(providers, defaultProvider.getName());
+        underTest = new TorrentProviderFacade(providers, defaultProvider.getName());
     }
 
     @Test
@@ -55,7 +55,7 @@ public class TorrentsProvidersFacadeTest {
         MockProvider ccc = spy(new MockProvider(2L, "ccc"));
         doThrow(new RuntimeException()).when(ccc).checkIfUp();
         providers = Arrays.asList(defaultProvider, bbb, ccc);
-        underTest = new TorrentsProvidersFacade(providers, defaultProvider.getName());
+        underTest = new TorrentProviderFacade(providers, defaultProvider.getName());
         underTest.setMinUpdateInterval(0);
         ProviderUpdateContext context = mock(ProviderUpdateContext.class);
         doAnswer(invocation -> {
@@ -85,7 +85,7 @@ public class TorrentsProvidersFacadeTest {
         defaultProvider = spy(new MockProvider(0L, "aaa"));
         MockProvider bbb = spy(new MockProvider(1L, "bbb"));
         providers = Arrays.asList(defaultProvider, bbb);
-        underTest = new TorrentsProvidersFacade(providers, defaultProvider.getName());
+        underTest = new TorrentProviderFacade(providers, defaultProvider.getName());
         underTest.setMinUpdateInterval(1000);
         ProviderUpdateContext context = mock(ProviderUpdateContext.class);
         doAnswer(invocation -> {
@@ -105,30 +105,30 @@ public class TorrentsProvidersFacadeTest {
 
     @Test
     public void getProvidersFirstDefaultShouldNotChangeOrder() throws Exception {
-        underTest = new TorrentsProvidersFacade(toBeSorted, "a");
+        underTest = new TorrentProviderFacade(toBeSorted, "a");
         performOrderTest(underTest, "a", "a", "b", "c", "d");
     }
 
     @Test
     public void getProvidersLastDefaultShoudBeMovedToFirstIndexRestUnchanged() throws Exception {
-        underTest = new TorrentsProvidersFacade(toBeSorted, "d");
+        underTest = new TorrentProviderFacade(toBeSorted, "d");
         performOrderTest(underTest, "d", "d", "a", "b", "c");
     }
 
     @Test
     public void getProvidersMiddleDefaultShouldBeMovedToFirstIndexRestUnchanged() throws Exception {
-        underTest = new TorrentsProvidersFacade(toBeSorted, "b");
+        underTest = new TorrentProviderFacade(toBeSorted, "b");
         performOrderTest(underTest, "b", "b", "a", "c", "d");
     }
 
     @Test
     public void getProvidersMiddleWhenDefaultNotFoundFallbackToFirst() throws Exception {
-        underTest = new TorrentsProvidersFacade(toBeSorted, "e");
+        underTest = new TorrentProviderFacade(toBeSorted, "e");
         performOrderTest(underTest, "a", "a", "b", "c", "d");
     }
 
-    private void performOrderTest(TorrentsProvidersFacade facade, String expectedDefault, String... order) throws Exception {
-        Iterator<TorrentsProvider> iterator = facade.getProviders().iterator();
+    private void performOrderTest(TorrentProviderFacade facade, String expectedDefault, String... order) throws Exception {
+        Iterator<TorrentProvider> iterator = facade.getProviders().iterator();
         assertEquals("Should filter out duplicates", order.length, underTest.getProviders().size());
         for (String expected : order) {
             assertEquals(expected, iterator.next().getName());
@@ -138,12 +138,12 @@ public class TorrentsProvidersFacadeTest {
 
     @Test
     public void getDefaultProvider() throws Exception {
-        underTest = new TorrentsProvidersFacade(toBeSorted, "c");
+        underTest = new TorrentProviderFacade(toBeSorted, "c");
         assertEquals("c", underTest.getDefaultProvider().getName());
     }
 
     @RequiredArgsConstructor
-    private static class MockProvider extends TorrentsProvider {
+    private static class MockProvider extends TorrentProvider {
         private final String name;
         private long delay = 0;
 

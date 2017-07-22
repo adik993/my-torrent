@@ -13,11 +13,11 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class AutomaticProvider extends TorrentsProvider {
+public class AutomaticProvider extends TorrentProvider {
 
-    private List<? extends TorrentsProvider> providers;
+    private List<? extends TorrentProvider> providers;
 
-    public AutomaticProvider(List<? extends TorrentsProvider> providers) {
+    public AutomaticProvider(List<? extends TorrentProvider> providers) {
         this.providers = providers;
         this.up.set(true);
     }

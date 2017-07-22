@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public abstract class TorrentsProvider {
+public abstract class TorrentProvider {
     @Getter
     @Setter
     Long id;
@@ -34,7 +34,7 @@ public abstract class TorrentsProvider {
 
     @Override
     public String toString() {
-        return "TorrentsProvider(" +
+        return "TorrentProvider(" +
                 "id=" + id +
                 ", name=" + getName() +
                 ')';
