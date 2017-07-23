@@ -30,7 +30,7 @@ class Torrent extends React.Component {
                     <Chosen chosen={torrent.chosen} onUnchoose={this.handleUnchoose}/>
                 </td>
                 <td className="col-sm-12 col-md-7">
-                    <a className="hover-fill" data-txthover={torrent.title} href={torrent.torrentLink}>{torrent.title}</a>
+                    <a className="hover-fill" data-txthover={torrent.title} target="_blank" href={torrent.torrentLink}>{torrent.title}</a>
                     <ul className="title-data">
                         <li> <PublishDate date={torrent.publishDate}/>  </li>
                         <li> <Quality quality={torrent.quality}/> </li>
@@ -42,7 +42,7 @@ class Torrent extends React.Component {
 
                     </ul>
                 </td>
-                <td className="col-sm-12 col-md-1 text-center visible-md visible-lg">
+                <td className="col-sm-12 col-md-1 text-center">
                     <MagnetLink onMagnetClick={this.handleMagnetClick} magnetLink={torrent.magnetLink}/>
                 </td>
                 <td className="col-sm-12 col-md-1 text-center category visible-md visible-lg">
