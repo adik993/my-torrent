@@ -43,8 +43,6 @@ tasks.all {
     if (it.name.endsWith('Tar')) it.enabled = false
 }
 
-distTar.enabled = false
-
 dependencies {
     windows "com.sun.winsw:winsw:2.0.3:bin@exe"
     common(project(":server")) {

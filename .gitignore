@@ -30,6 +30,7 @@ out/
 .idea
 *.iml
 *.iws
+*.ipr
 
 #Project specific
 *.db

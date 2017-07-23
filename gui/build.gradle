@@ -5,12 +5,15 @@ plugins {
 task npm_build_dist(type: NpmTask, dependsOn: npmInstall) {
     args = ['run', 'build:dist']
     inputs.files(fileTree("src"), fileTree("config"))
-    outputs.dir("$buildDir/classes")
+    outputs.dir("$buildDir/dist")
 }
 
-jar {
-    dependsOn npm_build_dist
-    from("$buildDir/classes") {
-        include 'public/*'
+assemble.dependsOn npm_build_dist
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = ['src']
+        }
     }
 }
