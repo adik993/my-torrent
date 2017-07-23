@@ -7,7 +7,7 @@ const options = require('./base');
 module.exports = function () {
     return webpackMerge(options(), {
         output: {
-            path: path.join(__dirname, '../build', 'classes', 'public'),
+            path: path.join(__dirname, '../build', 'dist'),
             sourceMapFilename: "[name].map"
         },
         plugins: [
@@ -30,7 +30,7 @@ module.exports = function () {
                 'process.env': {
                     'NODE_ENV': JSON.stringify("production")
                 }
-            }),
+            })
             // new FaviconsWebpackPlugin('images/favicon.png')
         ]
     });

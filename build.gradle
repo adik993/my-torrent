@@ -14,11 +14,10 @@ buildscript {
 allprojects {
     apply plugin: "idea"
     apply plugin: "project-report"
+    apply plugin: "com.dorongold.task-tree"
 
     group = "com.adik993"
     version = "1.0-SNAPSHOT"
-
-    apply plugin: "com.dorongold.task-tree"
 }
 
 subprojects {
@@ -40,7 +39,21 @@ subprojects {
         sha256 = ""
     }
 
-//    build.finalizedBy install
+    clean {
+        doFirst {
+            delete "${projectDir}/out"
+        }
+    }
+
+    idea {
+        module {
+            inheritOutputDirs = false
+            outputDir = file("$buildDir/classes/java/main/")
+            testOutputDir = file("$buildDir/classes/java/test/")
+        }
+    }
+
+    build.dependsOn install
 
     dependencyManagement {
         imports {
