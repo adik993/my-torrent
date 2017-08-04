@@ -1,10 +1,8 @@
 apply plugin: 'distribution'
 
-buildscript {
-    repositories {
-        mavenCentral()
-        maven { url "http://repo.jenkins-ci.org/releases" }
-    }
+repositories {
+    mavenCentral()
+    maven { url "http://repo.jenkins-ci.org/releases" }
 }
 
 configurations {
