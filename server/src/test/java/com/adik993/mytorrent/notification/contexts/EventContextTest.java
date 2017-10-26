@@ -17,19 +17,19 @@ public class EventContextTest {
     @Before
     public void init() {
         eventBus = mock(EventBus.class);
-        underTest = new EventContext(eventBus, TOPIC);
+        underTest = new EventContext(eventBus);
     }
 
     @Test
     public void notifyBusVoid() throws Exception {
-        underTest.notifyBus();
+        underTest.notifyBus(TOPIC);
         verify(eventBus, times(1)).notify(eq(TOPIC), any(Event.class));
     }
 
     @Test
     public void notifyBus() throws Exception {
         Object obj = new Object();
-        underTest.notifyBus(obj);
+        underTest.notifyBus(TOPIC, obj);
         verify(eventBus, times(1)).notify(eq(TOPIC), argThat(new EventArgumentMatcher<>(obj)));
     }
 

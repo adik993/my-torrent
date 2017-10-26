@@ -14,12 +14,11 @@ import static org.mockito.Mockito.*;
 public class ProviderSearchFailedReceiverTest {
     private ProviderSearchFailedReceiver underTest;
     private TorrentProviderFacade torrentProviderFacade;
-    private EventContextFactory eventContextFactory;
 
     @Before
     public void init() {
         torrentProviderFacade = mock(TorrentProviderFacade.class);
-        eventContextFactory = new EventContextFactory(null);
+        EventContextFactory eventContextFactory = new EventContextFactory(null);
 
         underTest = new ProviderSearchFailedReceiver(null, torrentProviderFacade, eventContextFactory);
     }

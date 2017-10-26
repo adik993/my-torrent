@@ -12,10 +12,10 @@ public class EventContextFactory {
     private final EventBus eventBus;
 
     public ProviderUpdateContext createProviderUpdateContext() {
-        return new ProviderUpdateContext(eventBus, Topic.PROVIDER_STATUS_UPDATE_DONE);
+        return new ProviderUpdateContext(eventBus);
     }
 
     public SearchContext createSearchContext() {
-        return new SearchContext(eventBus, Topic.PROVIDER_SEARCH_FAILED);
+        return new SearchContext(eventBus);
     }
 }
