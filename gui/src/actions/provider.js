@@ -1,6 +1,6 @@
 import {checkResponse} from "utils";
 import * as types from "actions/types";
-import {wsSubscribe, wsUnsubscribe} from "redux-stomp";
+import {sseSubscribe, sseUnsubscribe} from "sse";
 
 export const providerFetchDataIsLoading = isLoading => {
     return {
@@ -32,7 +32,7 @@ export const providerSelectProvider = selectedProvider => {
 
 export const providerFetchData = () => dispatch => {
     dispatch(providerFetchDataIsLoading(true));
-    fetch('/api/providers')
+    fetch('/api/clients')
         .then(response => checkResponse(response))
         .then(response => response.json())
         .then(providers => {
@@ -46,7 +46,7 @@ export const providerFetchData = () => dispatch => {
 };
 
 export const providerSubscribeProviders = () => dispatch => {
-    dispatch(wsSubscribe('/client/providers', body => {
+    dispatch(sseSubscribe('/api/clients', body => {
         return {
             type: types.PROVIDER_FETCH_DATA_SUCCESS,
             providers: body
@@ -55,5 +55,5 @@ export const providerSubscribeProviders = () => dispatch => {
 };
 
 export const providerUnsubscribeProviders = () => dispatch => {
-    dispatch(wsUnsubscribe('/client/providers'));
+    dispatch(sseUnsubscribe('/api/clients'));
 };

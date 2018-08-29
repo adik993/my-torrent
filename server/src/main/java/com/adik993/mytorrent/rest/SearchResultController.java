@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.persistence.EntityNotFoundException;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/result")
@@ -18,12 +17,10 @@ public class SearchResultController {
     private final SelectService selectService;
 
     @PostMapping("/select")
-    public ResponseEntity<Void> select(@RequestParam("id") Long id, @RequestParam("selected") boolean selected) {
-        try {
-            selectService.select(id, selected);
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().build();
+    public Mono<ResponseEntity<Object>> select(@RequestParam("id") String id,
+                                               @RequestParam("selected") boolean selected) {
+        return selectService.select(id, selected)
+                .map(search -> ResponseEntity.noContent().build())
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 }

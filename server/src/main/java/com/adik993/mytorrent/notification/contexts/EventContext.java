@@ -1,9 +1,8 @@
 package com.adik993.mytorrent.notification.contexts;
 
 
+import com.adik993.mytorrent.notification.EventBus;
 import lombok.RequiredArgsConstructor;
-import reactor.bus.Event;
-import reactor.bus.EventBus;
 
 @SuppressWarnings("WeakerAccess")
 @RequiredArgsConstructor
@@ -11,10 +10,10 @@ public class EventContext<T> {
     private final EventBus eventBus;
 
     protected void notifyBus(String topic, T object) {
-        eventBus.notify(topic, Event.wrap(object));
+        eventBus.notify(topic, object);
     }
 
     protected void notifyBus(String topic) {
-        eventBus.notify(topic, Event.wrap(new Object()));
+        eventBus.notify(topic);
     }
 }

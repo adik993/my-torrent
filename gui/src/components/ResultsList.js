@@ -10,7 +10,7 @@ class ResultsList extends React.Component {
         if (this.props.hasErrored) {
             return (<h1>Error</h1>)
         }
-        if (this.props.torrents.length == 0) {
+        if (this.props.torrents.length === 0) {
             return (<h1>No content</h1>)
         }
         return (

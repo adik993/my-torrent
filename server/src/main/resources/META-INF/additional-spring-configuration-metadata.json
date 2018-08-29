@@ -1,19 +1,44 @@
 {
   "properties": [
     {
-      "name": "tc.providers.update-interval",
+      "name": "tc.clients.update-interval",
       "type": "java.lang.String",
       "description": "Interval in millis between provider status(UP/DOWN) update, when someone is viewing page"
     },
     {
-      "name": "tc.providers.min-update-interval",
+      "name": "tc.clients.min-update-interval",
       "type": "java.lang.String",
-      "description": "How frequent in milliseconds can status update be invoked, whether manual or automatic controlled by tc.providers.update-interval"
+      "description": "How frequent in milliseconds can status update be invoked, whether manual or automatic controlled by tc.clients.update-interval"
     },
     {
-      "name": "tc.providers.default",
+      "name": "tc.clients.default",
       "type": "java.lang.String",
       "description": "Name of defualt provider. For now two certainly available names are: thepiratebay.org and automatic"
+    },
+    {
+      "name": "tc.proxy-server.url",
+      "type": "java.lang.String",
+      "description": "Url for the proxy list service"
+    },
+    {
+      "name": "tc.clients.automatic-client.paralellism",
+      "type": "java.lang.String",
+      "description": "Parallelism level for automaric client"
+    },
+    {
+      "name": "tc.clients.update-clients.paralellism",
+      "type": "java.lang.String",
+      "description": "Parallelism level for refreshing clients' up status"
+    },
+    {
+      "name": "spring.mongodb.embedded.artifact.storage-path",
+      "type": "java.lang.String",
+      "description": "Determines where to download and extract embedded mongodb binaries"
+    },
+    {
+      "name": "tc.clients.update-on-startup",
+      "type": "java.lang.String",
+      "description": "Whether update up status of clients on start up or not"
     }
   ]
 }
