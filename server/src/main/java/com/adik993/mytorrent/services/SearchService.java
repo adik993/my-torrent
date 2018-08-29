@@ -1,63 +1,57 @@
 package com.adik993.mytorrent.services;
 
+import com.adik993.mytorrent.clients.Page;
+import com.adik993.mytorrent.clients.TorrentClient;
+import com.adik993.mytorrent.clients.TorrentClientFacade;
 import com.adik993.mytorrent.model.Search;
 import com.adik993.mytorrent.model.SearchResult;
 import com.adik993.mytorrent.notification.contexts.SearchContext;
-import com.adik993.mytorrent.providers.Page;
-import com.adik993.mytorrent.providers.TorrentProvider;
-import com.adik993.mytorrent.providers.TorrentProviderFacade;
 import com.adik993.mytorrent.repository.SearchRepository;
-import com.adik993.tpbclient.exceptions.ParseException;
 import com.adik993.tpbclient.model.Torrent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.val;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.List;
+import static reactor.adapter.rxjava.RxJava2Adapter.singleToMono;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 @Slf4j
 public class SearchService {
     private final SearchRepository searchRepository;
-    private final TorrentProviderFacade torrentProviderFacade;
+    private final TorrentClientFacade torrentClientFacade;
 
-    public List<SearchResult> search(SearchContext searchContext, String query, Long providerId) throws IOException, ParseException {
-        Search search = saveQuery(query, providerId);
-        TorrentProvider provider = torrentProviderFacade.get(providerId);
-        log.debug("Calling search on provider {}", provider);
-        Page<Torrent> result;
-        try {
-            result = provider.search(query, null, null, null);
-        } catch (Exception e) {
-            searchContext.notifySearchFailed(provider);
-            throw e;
-        }
-        log.debug("Call successful with result {}", result);
-        return saveSearchResults(result, search);
+    public Flux<SearchResult> search(SearchContext searchContext, String query, String clientId) {
+        val client = torrentClientFacade.get(clientId);
+        log.debug("Calling search {} on client {}", query, client);
+        return saveQuery(query)
+                .flatMap(search -> search(client, search).flatMap(search::addResults))
+                .doOnSuccess(search -> log.debug("Call successful for query {} with result {}",
+                        search, search.getSearchResults()))
+                .doOnError(throwable -> searchContext.notifySearchFailed(client))
+                .flatMapMany(this::saveSearchResults);
     }
 
-    Search saveQuery(String query, Long proxy) {
-        log.debug("Searching {} on proxy {}", query, proxy);
-        Search search = new Search();
-        search.setQuery(query);
-        search.setTimestamp(LocalDateTime.now());
-        search.setSuccess(false);
-        search = searchRepository.save(search);
-        log.debug("Saved search request {}", search);
-        return search;
+    private Mono<Page<Torrent>> search(TorrentClient provider, Search search) {
+        return singleToMono(provider.search(search.getQuery(), null, null, null));
     }
 
-    List<SearchResult> saveSearchResults(Page<Torrent> result, Search search) {
-        log.debug("Saving search results");
-        List<SearchResult> searchResults = SearchResult.fromList(result.getContent(), search);
-        search.setSearchResults(searchResults);
-        search.setSuccess(true);
-        searchRepository.save(search);
-        log.debug("Saved search results");
-        return searchResults;
+    private Mono<Search> saveQuery(String query) {
+        return searchRepository.save(new Search(query))
+                .doOnSuccess(s -> log.debug("Saved search request {}", s));
+    }
+
+    private Flux<SearchResult> saveSearchResults(Search searchWithResults) {
+        return Mono.just(searchWithResults)
+                .doOnNext(Search::success)
+                .doOnNext(search -> log.debug("Saving search results for {} with {} results",
+                        search, search.getResultsCount()))
+                .flatMap(searchRepository::save)
+                .doOnSuccess(search -> log.debug("Saved search results for {} with {}",
+                        search, search.getResultsCount()))
+                .flatMapIterable(Search::getSearchResults);
     }
 }

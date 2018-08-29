@@ -25,7 +25,7 @@ export const torrentsFetchDataSiccess = torrents => {
 export const torrentsFetchData = (query, provider) => dispatch => {
     dispatch(torrentsIsLoading(true));
     dispatch(torrentsHasErrored(false));
-    fetch(`/api/search?query=${query}&provider=${provider}`)
+    fetch(`/api/search?query=${query}&client=${provider}`)
         .then(response => checkResponse(response))
         .then(response => response.json())
         .then(torrents => dispatch(torrentsFetchDataSiccess(torrents)))

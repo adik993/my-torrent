@@ -1,38 +1,24 @@
 package com.adik993.mytorrent.services;
 
 import com.adik993.mytorrent.model.Search;
-import com.adik993.mytorrent.model.SearchResult;
-import com.adik993.mytorrent.repository.SearchResultRepository;
+import com.adik993.mytorrent.repository.SearchRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.EntityNotFoundException;
-import java.util.List;
+import reactor.core.publisher.Mono;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 @Slf4j
 public class SelectService {
-    private final SearchResultRepository searchResultRepository;
+    private final SearchRepository searchRepository;
 
-    public void select(Long id, boolean selected) throws EntityNotFoundException {
-        log.debug("Selecting result");
-        SearchResult one = searchResultRepository.findOne(id);
-        if (one == null) throw new EntityNotFoundException(String.format("Search result %s not found", id));
-        log.debug("Found search result {}", one);
-        Search search = one.getSearch();
-        List<SearchResult> searchResults = search.getSearchResults();
-        log.debug("Total results in search {}", searchResults.size());
-        for (SearchResult result : searchResults) {
-            if (result.getId().equals(one.getId())) {
-                result.setChosen(selected);
-            } else {
-                result.setChosen(false);
-            }
-        }
-        searchResultRepository.save(searchResults);
-        log.debug("Search results updated");
+    public Mono<Search> select(String id, boolean selected) {
+        log.debug("{} result {}", selected ? "selecting" : "deselecting", id);
+        return searchRepository.findBySearchResultId(id)
+                .doOnNext(search -> log.debug("Found search {} with {} results", search, search.getSearchResults().size()))
+                .flatMap(search -> search.updateSelection(id, selected))
+                .flatMap(searchRepository::save)
+                .doOnSuccess(search -> log.debug("Search results updated for {}", search));
     }
 }

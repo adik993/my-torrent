@@ -14,6 +14,12 @@ task npm_build_dist(type: NpmTask, dependsOn: npmInstall) {
     outputs.dir("$buildDir/dist")
 }
 
+task npm_start(type: NpmTask, dependsOn: npmInstall) {
+    args = ['start']
+    inputs.files(fileTree("src"), fileTree("config"))
+    outputs.dir("bin/main")
+}
+
 assemble.dependsOn npm_build_dist
 
 sourceSets {
