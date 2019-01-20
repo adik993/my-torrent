@@ -2,7 +2,6 @@ package com.adik993.mytorrent.rest;
 
 import com.adik993.mytorrent.services.SelectService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +11,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/result")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class SearchResultController {
     private final SelectService selectService;
 
