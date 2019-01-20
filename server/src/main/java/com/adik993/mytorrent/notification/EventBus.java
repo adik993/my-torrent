@@ -2,12 +2,14 @@ package com.adik993.mytorrent.notification;
 
 import io.reactivex.Flowable;
 import io.reactivex.processors.FlowableProcessor;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public class EventBus {
     private static final Object NULL = new Object();
     private final FlowableProcessor<Event<?>> processor;
+
+    public EventBus(FlowableProcessor<Event<?>> processor) {
+        this.processor = processor.toSerialized();
+    }
 
     @SuppressWarnings("unchecked")
     public <T> Flowable<T> on(String topic, Class<T> type) {

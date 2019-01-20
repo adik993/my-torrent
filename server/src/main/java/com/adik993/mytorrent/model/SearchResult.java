@@ -21,7 +21,7 @@ import static lombok.AccessLevel.NONE;
 @NoArgsConstructor
 public class SearchResult {
     @Setter(NONE)
-    private final String id = new ObjectId().toString();
+    private String id = new ObjectId().toString();
     private boolean chosen;
     private Long torrentId;
     private String title;
